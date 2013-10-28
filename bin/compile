@@ -220,6 +220,9 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 [ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
 
+echo $BUILD_DIR
+echo $CACHE_DIR
+
 # Install GEOS
 if [ ! -d .heroku/gdal ]; then
   cd $BUILD_DIR
