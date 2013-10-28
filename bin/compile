@@ -111,42 +111,6 @@ fi
 # ### The Cache
 mkdir -p $CACHE_DIR
 
-# Install GEOS
-if [ ! -d $CACHE_DIR/gdal ]; then
-  cd $BUILD_DIR
-  echo "-----> Fetching and installing GEOS 3.3.2"
-  curl -O https://s3.amazonaws.com/cirheroku/geos-3.3.2-herkou.tar.gz >/dev/null 2>&1
-  echo "-----> Installing ..."
-  tar xzvf geos-3.3.2-herkou.tar.gz >/dev/null 2>&1
-  mv geos $CACHE_DIR/geos
-  rm geos-3.3.2-herkou.tar.gz
-  echo "GEOS installed" | indent
-fi
-
-# Install Proj.4
-if [ ! -d $CACHE_DIR/gdal ]; then
-  cd $BUILD_DIR
-  echo "-----> Fetching and installing Proj.4 4.7.0"
-  curl -O https://s3.amazonaws.com/cirheroku/proj4-4.7.0-heroku.tar.gz >/dev/null 2>&1
-  echo "-----> Installing ..."
-  tar xzvf proj4-4.7.0-heroku.tar.gz >/dev/null 2>&1
-  mv proj4 $CACHE_DIR/proj4
-  rm proj4-4.7.0-heroku.tar.gz
-  echo "Proj.4 installed" | indent
-fi
-
-# Install GDAL
-if [ ! -d $CACHE_DIR/gdal ]; then
-  cd $BUILD_DIR
-  echo "-----> Fetching and installing GDAL 1.8.1"
-  curl -O https://s3.amazonaws.com/cirheroku/gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
-  echo "-----> Installing ..."
-  tar xzvf gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
-  mv gdal $CACHE_DIR/gdal
-  rm gdal-1.8.1-heroku.tar.gz
-  echo "GDAL installed" | indent
-fi
-
 # Purge "old-style" virtualenvs.
 bpwatch start clear_old_venvs
   [ -d $CACHE_DIR/$LEGACY_TRIGGER ] && rm -fr $CACHE_DIR/.heroku/bin $CACHE_DIR/.heroku/lib $CACHE_DIR/.heroku/include
@@ -255,6 +219,42 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 
 [ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
+
+# Install GEOS
+if [ ! -d .heroku/gdal ]; then
+  cd $BUILD_DIR
+  echo "-----> Fetching and installing GEOS 3.3.2"
+  curl -O https://s3.amazonaws.com/cirheroku/geos-3.3.2-herkou.tar.gz >/dev/null 2>&1
+  echo "-----> Installing ..."
+  tar xzvf geos-3.3.2-herkou.tar.gz >/dev/null 2>&1
+  mv geos .heroku/geos
+  rm geos-3.3.2-herkou.tar.gz
+  echo "GEOS installed" | indent
+fi
+
+# Install Proj.4
+if [ ! -d .heroku/gdal ]; then
+  cd $BUILD_DIR
+  echo "-----> Fetching and installing Proj.4 4.7.0"
+  curl -O https://s3.amazonaws.com/cirheroku/proj4-4.7.0-heroku.tar.gz >/dev/null 2>&1
+  echo "-----> Installing ..."
+  tar xzvf proj4-4.7.0-heroku.tar.gz >/dev/null 2>&1
+  mv proj4 .heroku/proj4
+  rm proj4-4.7.0-heroku.tar.gz
+  echo "Proj.4 installed" | indent
+fi
+
+# Install GDAL
+if [ ! -d .heroku/gdal ]; then
+  cd $BUILD_DIR
+  echo "-----> Fetching and installing GDAL 1.8.1"
+  curl -O https://s3.amazonaws.com/cirheroku/gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
+  echo "-----> Installing ..."
+  tar xzvf gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
+  mv gdal $CACHE_DIR/gdal
+  rm gdal-1.8.1-heroku.tar.gz
+  echo "GDAL installed" | indent
+fi
 
 # Django collectstatic support.
 bpwatch start collectstatic
