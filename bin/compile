@@ -220,9 +220,6 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 [ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
 
-echo $BUILD_DIR
-echo $CACHE_DIR
-
 # Install GEOS
 if [ ! -d .heroku/gdal ]; then
   cd $BUILD_DIR
@@ -254,7 +251,7 @@ if [ ! -d .heroku/gdal ]; then
   curl -O https://s3.amazonaws.com/cirheroku/gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
   echo "-----> Installing ..."
   tar xzvf gdal-1.8.1-heroku.tar.gz >/dev/null 2>&1
-  mv gdal $CACHE_DIR/gdal
+  mv gdal .heroku/gdal
   rm gdal-1.8.1-heroku.tar.gz
   echo "GDAL installed" | indent
 fi
