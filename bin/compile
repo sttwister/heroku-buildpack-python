@@ -91,6 +91,26 @@ export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.heroku/ven
 # Switch to the repo's context.
 cd $BUILD_DIR
 
+# Experimental pre_compile hook.
+bpwatch start pre_compile
+  source $BIN_DIR/steps/hooks/pre_compile
+bpwatch stop pre_compile
+
+# If no requirements given, assume `setup.py develop`.
+if [ ! -f requirements.txt ]; then
+  puts-step "No requirements.txt provided; assuming dist package."
+  echo "-e ." > requirements.txt
+fi
+
+# If no runtime given, assume default version.
+if [ ! -f runtime.txt ]; then
+  puts-step "No runtime.txt provided; assuming $DEFAULT_PYTHON_VERSION."
+  echo $DEFAULT_PYTHON_VERSION > runtime.txt
+fi
+
+# ### The Cache
+mkdir -p $CACHE_DIR
+
 # Install GEOS
 if [ ! -d $CACHE_DIR/gdal ]; then
   cd $BUILD_DIR
@@ -126,26 +146,6 @@ if [ ! -d $CACHE_DIR/gdal ]; then
   rm gdal-1.8.1-heroku.tar.gz
   echo "GDAL installed" | indent
 fi
-
-# Experimental pre_compile hook.
-bpwatch start pre_compile
-  source $BIN_DIR/steps/hooks/pre_compile
-bpwatch stop pre_compile
-
-# If no requirements given, assume `setup.py develop`.
-if [ ! -f requirements.txt ]; then
-  puts-step "No requirements.txt provided; assuming dist package."
-  echo "-e ." > requirements.txt
-fi
-
-# If no runtime given, assume default version.
-if [ ! -f runtime.txt ]; then
-  puts-step "No runtime.txt provided; assuming $DEFAULT_PYTHON_VERSION."
-  echo $DEFAULT_PYTHON_VERSION > runtime.txt
-fi
-
-# ### The Cache
-mkdir -p $CACHE_DIR
 
 # Purge "old-style" virtualenvs.
 bpwatch start clear_old_venvs
