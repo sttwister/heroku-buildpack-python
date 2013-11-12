@@ -9,7 +9,13 @@ indent() {
 MANAGE_FILE=$(find . -maxdepth 3 -type f -name 'manage.py' | head -1)
 MANAGE_FILE=${MANAGE_FILE:-fakepath}
 
+echo "YO this is collectr"
+echo $MANAGE_FILE
+
 [ -f .heroku/collectstatic_disabled ] && DISABLE_COLLECTSTATIC=1
+
+echo "Disable?"
+echo $DISABLE_COLLECTSTATIC
 
 if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
     set +e
