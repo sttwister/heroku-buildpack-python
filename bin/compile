@@ -256,6 +256,8 @@ if [ ! -d .heroku/gdal ]; then
   echo "GDAL installed" | indent
 fi
 
+rm -r .herkou/vendor/node
+
 # Install node.js
 if [ ! -d .heroku/vendor/node/bin ]; then
 
@@ -283,9 +285,9 @@ if [ ! -d .heroku/vendor/node/bin ]; then
   mv $tempdir/$NODE_BASENAME node
   popd
 
-  ln -s -f .heroku/vendor/node/bin/node .heroku/python/bin/node
-  ln -s -f .heroku/vendor/node/bin/node-waf .heroku/python/bin/node-waf
-  ln -s -f .heroku/vendor/node/bin/npm .heroku/python/bin/npm
+  ln -s -f ../../vendor/node/bin/node .heroku/python/bin/node
+  ln -s -f ../../vendor/node/bin/node-waf .heroku/python/bin/node-waf
+  ln -s -f ../../vendor/node/bin/npm .heroku/python/bin/npm
 
   echo "-----> Installing less..."
   .heroku/vendor/node/bin/npm install -g less
