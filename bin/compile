@@ -267,7 +267,7 @@ if [ ! -d .heroku/gdal ]; then
 fi
 
 [ -d .heroku/vendor/node ] && echo "exists"
-[ -d .heroku/vendor/node ] && rm -rf .herok/vendor/node && echo "removed"
+[ -d .heroku/vendor/node ] && rm -rf .heroku/vendor/node && echo "removed"
 [ -d .heroku/vendor/node ] && echo "exists"
 
 # Install node.js
