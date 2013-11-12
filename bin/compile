@@ -288,7 +288,7 @@ if [ ! -d .heroku/node/bin ]; then
   ln -s -f .heroku/vendor/node/bin/npm .heroku/python/bin/npm
 
   echo "-----> Installing less..."
-  .heroku/vendor/node/bin/npm npm install -g less
+  .heroku/vendor/node/bin/npm install -g less
 fi
 
 # Django collectstatic support.
