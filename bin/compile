@@ -111,13 +111,6 @@ fi
 # ### The Cache
 mkdir -p $CACHE_DIR
 
-echo "Build dir"
-echo $BUILD_DIR
-echo "Cache dir"
-echo $CACHE_DIR
-echo "Bin dir"
-echo $BIN_DIR
-
 # Purge "old-style" virtualenvs.
 bpwatch start clear_old_venvs
   [ -d $CACHE_DIR/$LEGACY_TRIGGER ] && rm -fr $CACHE_DIR/.heroku/bin $CACHE_DIR/.heroku/lib $CACHE_DIR/.heroku/include
@@ -227,9 +220,6 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 [ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
 
-echo "Current directory"
-pwd
-
 # Install GEOS
 if [ ! -d .heroku/geos ]; then
   cd $BUILD_DIR
@@ -266,10 +256,6 @@ if [ ! -d .heroku/gdal ]; then
   echo "GDAL installed" | indent
 fi
 
-[ -d .heroku/vendor/node ] && echo "exists"
-[ -d .heroku/vendor/node ] && rm -rf .heroku/vendor/node && echo "removed"
-[ -d .heroku/vendor/node ] && echo "exists"
-
 # Install node.js
 if [ ! -d .heroku/vendor/node/bin ]; then
 
@@ -304,9 +290,6 @@ if [ ! -d .heroku/vendor/node/bin ]; then
   echo "-----> Installing less..."
   .heroku/vendor/node/bin/npm install -g less
 fi
-
-echo "Final dir"
-pwd
 
 # Django collectstatic support.
 bpwatch start collectstatic
