@@ -111,6 +111,9 @@ fi
 # ### The Cache
 mkdir -p $CACHE_DIR
 
+echo " CLEANING CACHE_DIR !!!!!! "
+rm -rf $CACHE_DIR/*
+
 # Purge "old-style" virtualenvs.
 bpwatch start clear_old_venvs
   [ -d $CACHE_DIR/$LEGACY_TRIGGER ] && rm -fr $CACHE_DIR/.heroku/bin $CACHE_DIR/.heroku/lib $CACHE_DIR/.heroku/include
