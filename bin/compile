@@ -111,8 +111,12 @@ fi
 # ### The Cache
 mkdir -p $CACHE_DIR
 
-echo " CLEANING CACHE_DIR !!!!!! "
-rm -rf $CACHE_DIR/*
+echo "Build dir"
+echo $BUILD_DIR
+echo "Cache dir"
+echo $CACHE_DIR
+echo "Bin dir"
+echo $BIN_DIR
 
 # Purge "old-style" virtualenvs.
 bpwatch start clear_old_venvs
@@ -223,6 +227,9 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 [ ! "$FRESH_PYTHON" ] && bpwatch stop pip_install
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
 
+echo "Current directory"
+pwd
+
 # Install GEOS
 if [ ! -d .heroku/geos ]; then
   cd $BUILD_DIR
@@ -293,6 +300,9 @@ if [ ! -d .heroku/vendor/node/bin ]; then
   echo "-----> Installing less..."
   .heroku/vendor/node/bin/npm install -g less
 fi
+
+echo "Final dir"
+pwd
 
 # Django collectstatic support.
 bpwatch start collectstatic
