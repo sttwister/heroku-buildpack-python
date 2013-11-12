@@ -23,6 +23,7 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
     echo "Running collectstatic"
 
     # Check if collectstatic is configured properly.
+    python $MANAGE_FILE collectstatic --dry-run --noinput
     python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
 
     echo "Run?"
