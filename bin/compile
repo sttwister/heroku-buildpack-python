@@ -256,8 +256,6 @@ if [ ! -d .heroku/gdal ]; then
   echo "GDAL installed" | indent
 fi
 
-rm -r .herkou/vendor/node
-
 # Install node.js
 if [ ! -d .heroku/vendor/node/bin ]; then
 
@@ -292,8 +290,6 @@ if [ ! -d .heroku/vendor/node/bin ]; then
   echo "-----> Installing less..."
   .heroku/vendor/node/bin/npm install -g less
 fi
-
-rm .heroku/collectstatic_disabled
 
 # Django collectstatic support.
 bpwatch start collectstatic
