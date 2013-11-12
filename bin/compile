@@ -221,7 +221,7 @@ puts-step "Installing dependencies using Pip ($PIP_VERSION)"
 [ "$FRESH_PYTHON" ] && bpwatch stop pip_install_first
 
 # Install GEOS
-if [ ! -d .heroku/gdal ]; then
+if [ ! -d .heroku/geos ]; then
   cd $BUILD_DIR
   echo "-----> Fetching and installing GEOS 3.3.2"
   curl -O https://s3.amazonaws.com/cirheroku/geos-3.3.2-herkou.tar.gz >/dev/null 2>&1
@@ -233,7 +233,7 @@ if [ ! -d .heroku/gdal ]; then
 fi
 
 # Install Proj.4
-if [ ! -d .heroku/gdal ]; then
+if [ ! -d .heroku/proj4 ]; then
   cd $BUILD_DIR
   echo "-----> Fetching and installing Proj.4 4.7.0"
   curl -O https://s3.amazonaws.com/cirheroku/proj4-4.7.0-heroku.tar.gz >/dev/null 2>&1
@@ -257,7 +257,7 @@ if [ ! -d .heroku/gdal ]; then
 fi
 
 # Install node.js
-if [ ! -d .heroku/node/bin ]; then
+if [ ! -d .heroku/vendor/node/bin ]; then
 
   cd $BUILD_DIR
   echo "-----> Installing node.js..."
@@ -290,6 +290,8 @@ if [ ! -d .heroku/node/bin ]; then
   echo "-----> Installing less..."
   .heroku/vendor/node/bin/npm install -g less
 fi
+
+rm .heroku/collectstatic_disabled
 
 # Django collectstatic support.
 bpwatch start collectstatic
