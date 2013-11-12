@@ -266,6 +266,10 @@ if [ ! -d .heroku/gdal ]; then
   echo "GDAL installed" | indent
 fi
 
+[ -d .heroku/vendor/node ] && echo "exists"
+[ -d .heroku/vendor/node ] && rm -rf .herok/vendor/node && echo "removed"
+[ -d .heroku/vendor/node ] && echo "exists"
+
 # Install node.js
 if [ ! -d .heroku/vendor/node/bin ]; then
 
