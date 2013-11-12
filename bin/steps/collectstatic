@@ -25,8 +25,8 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
     export MEMCACHE_SERVERS='' MEMCACHIER_SERVERS=''
 
     # Check if collectstatic is configured properly.
-    python $MANAGE_FILE collectstatic --dry-run --noinput
-    python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
+    DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE collectstatic --dry-run --noinput
+    DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
 
     echo "Run?"
     echo $RUN_COLLECTSTATIC
@@ -35,7 +35,7 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
     if [ "$RUN_COLLECTSTATIC" ]; then
 
         echo "-----> Compressing static files"
-        python $MANAGE_FILE compress --force 2>&1 | indent
+        DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE compress --force 2>&1 | indent
 
         [ $? -ne 0 ] && {
             echo " !     Error running manage.py compress  More info:"
@@ -43,7 +43,7 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
         }
 
         echo "-----> Collecting static files"
-        python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
+        DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
 
         [ $? -ne 0 ] && {
             echo " !     Error running manage.py collectstatic. More info:"
