@@ -49,8 +49,3 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
     echo
 
 fi
-
-if [ -f "$MANAGE_FILE" ]; then
-    echo "-----> Migrating"
-    python $MANAGE_FILE migrate 2>&1 | indent
-fi
