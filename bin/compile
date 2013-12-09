@@ -290,6 +290,7 @@ fi
 
 echo "-----> Installing less..."
 .heroku/vendor/node/bin/npm install -g less
+ln -s -f ../../vendor/node/bin/lessc .heroku/python/bin/lessc
 
 # Django collectstatic support.
 bpwatch start collectstatic
