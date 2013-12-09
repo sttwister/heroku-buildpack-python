@@ -18,19 +18,14 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
 
     export MEMCACHE_SERVERS='' MEMCACHIER_SERVERS=''
 
-    # Compressing requires a database with the experiments table in it :/
-    # See https://github.com/mixcloud/django-experiments/issues/113
-    DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE syncdb
-    DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE migrate experiments
-
     # Check if collectstatic is configured properly.
-    DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
+    python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
 
     # Compile assets if collectstatic appears to be kosher.
     if [ "$RUN_COLLECTSTATIC" ]; then
 
         echo "-----> Compressing static files"
-        DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE compress --force 2>&1 | indent
+        python $MANAGE_FILE compress --force 2>&1 | indent
 
         [ $? -ne 0 ] && {
             echo " !     Error running manage.py compress  More info:"
@@ -38,7 +33,7 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
         }
 
         echo "-----> Collecting static files"
-        DJANGO_SETTINGS_MODULE=rently.settings_heroku_nocache python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
+        python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
 
         [ $? -ne 0 ] && {
             echo " !     Error running manage.py collectstatic. More info:"
