@@ -18,6 +18,8 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
 
     export MEMCACHE_SERVERS='' MEMCACHIER_SERVERS=''
 
+    export DJANGO_SETTINGS_MODULE=crmove.settings_heroku
+
     # Check if collectstatic is configured properly.
     python $MANAGE_FILE collectstatic --dry-run --noinput &> /dev/null && RUN_COLLECTSTATIC=true
 
