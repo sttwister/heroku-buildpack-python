@@ -25,6 +25,13 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
 
     # Compile assets if collectstatic appears to be kosher.
     if [ "$RUN_COLLECTSTATIC" ]; then
+        echo "-----> Collecting static files"
+        python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
+
+        [ $? -ne 0 ] && {
+            echo " !     Error running manage.py collectstatic. More info:"
+            echo "       http://devcenter.heroku.com/articles/django-assets"
+        }
 
         echo "-----> Compressing static files"
         python $MANAGE_FILE compress --force 2>&1 | indent
@@ -34,13 +41,6 @@ if [ ! "$DISABLE_COLLECTSTATIC" ] && [ -f "$MANAGE_FILE" ]; then
             echo "       http://devcenter.heroku.com/articles/django-assets"
         }
 
-        echo "-----> Collecting static files"
-        python $MANAGE_FILE collectstatic --noinput  2>&1 | sed '/^Copying/d;/^$/d;/^ /d' | indent
-
-        [ $? -ne 0 ] && {
-            echo " !     Error running manage.py collectstatic. More info:"
-            echo "       http://devcenter.heroku.com/articles/django-assets"
-        }
     fi
 
     echo
